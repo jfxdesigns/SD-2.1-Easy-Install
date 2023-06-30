@@ -2,6 +2,8 @@ import atexit
 import torch
 import subprocess
 import os
+import string
+import random
 
 def exitfunction():
 	print("---------------------------------------------------------------------------------------------------")	
@@ -33,9 +35,13 @@ def main():
 	print("---------------------------------------------------------------------------------------------------")
 	promptvariable = input()
 	prompt = promptvariable
-
+	random_name_lenght = 7
+	res = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k=random_name_length))
 	image = pipe(prompt).images[0]
-	image.save("image.png")
+	os.chdir('outputs')
+	image.save(res + ".png")
+	torch.cuda.empty_cache()
 	print("---------------------------------------------------------------------------------------------------")
 	print("|                       Would you like to generate another image ?(y/n)                           |")
 	print("---------------------------------------------------------------------------------------------------")
