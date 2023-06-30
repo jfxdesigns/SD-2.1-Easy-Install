@@ -33,15 +33,11 @@ def main():
 	print("---------------------------------------------------------------------------------------------------")
 	promptvariable = input()
 	prompt = promptvariable
-	print("---------------------------------------------------------------------------------------------------")
-	print("|                                     How many iterations?                                        |")
-	print("---------------------------------------------------------------------------------------------------")
-	promptvariable = input()
-	prompt = promptvariable
+
 	image = pipe(prompt).images[0]
-	image.save("prompt + '.png'")
+	image.save("image.png")
 	print("---------------------------------------------------------------------------------------------------")
-	print("|                       Would you like to generate another video? (y/n)                           |")
+	print("|                       Would you like to generate another image ?(y/n)                           |")
 	print("---------------------------------------------------------------------------------------------------")
 	n = "n"
 	y = "y"
