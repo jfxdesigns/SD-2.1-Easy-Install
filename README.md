@@ -1,9 +1,3 @@
-# SD-2.1-Easy-Install
-A singular, user friendly install script for installing all requirements, software, and launch script for https://huggingface.co/stabilityai/stable-diffusion-2-1-base
-.
-.
-.
-
 # INSTALLING
 1. Open "SD2.1-Install"
 2. Open "generate.py"
