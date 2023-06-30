@@ -3,6 +3,7 @@ A singular, user friendly install script for installing all requirements, softwa
 .
 .
 .
+
 #INSTALLING
 1. Open "SD2.1-Install"
 2. Open "generate.py"
