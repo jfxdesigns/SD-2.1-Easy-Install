@@ -40,7 +40,7 @@ def main():
 	print("---------------------------------------------------------------------------------------------------")
 	promptvariable = input()
 	prompt = promptvariable
-	random_name_lenght = 7
+	random_name_length = 7
 	res = ''.join(random.choices(string.ascii_uppercase +
                              string.digits, k=random_name_length))
 	image = pipe(prompt).images[0]
