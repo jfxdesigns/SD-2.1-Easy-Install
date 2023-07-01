@@ -23,6 +23,11 @@ def main():
 	scheduler = EulerDiscreteScheduler.from_pretrained(model_id, subfolder="scheduler")
 	pipe = StableDiffusionPipeline.from_pretrained(model_id, scheduler=scheduler, torch_dtype=torch.float16)
 	pipe = pipe.to("cuda")
+	pipe.enable_vae_tiling()
+	pipe.enable_attention_slicing("max")
+	pipe.enable_xformers_memory_efficient_attention(attention_op=None)
+	pipe.unet.to(memory_format=torch.channels_last)
+	pipe.enable_sequential_cpu_offload()
 	# prompts for an input to text to video
 	print("													  ")		
 	print("													  ")		
