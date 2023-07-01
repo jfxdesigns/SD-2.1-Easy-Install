@@ -4,7 +4,7 @@
 3. Open "generate.py"
 4. Enjoy!
 
-Socials:
+# Socials:
 
 Linkedin : https://www.linkedin.com/in/joshua-roberts-bb167a211/
 
