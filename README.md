@@ -1,7 +1,8 @@
 # INSTALLING
-1. Open "SD2.1-Install"
-2. Open "generate.py"
-3. Enjoy!
+1. Download Newest Release 
+2. Open "SD2.1-Install"
+3. Open "generate.py"
+4. Enjoy!
 
 Socials:
 
