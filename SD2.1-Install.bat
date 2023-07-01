@@ -3,9 +3,9 @@ winget install --id Git.Git -e --source winget
 cls
 winget install --id=Python.Python.3.10  -e
 cls
-
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
+cls
+pip install xformers
 cls
 
 goto prompt_download
