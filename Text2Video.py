@@ -2,14 +2,22 @@ import atexit
 import torch
 import subprocess
 import os
+import string
+import random
 os.system("winget install --id Git.Git -e --source winget")
-os.system("winget install --id=Python.Python.3.10  -e")
-os.system("pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118")
-os.system("git lfs install")
-os.system("git clone https://huggingface.co/damo-vilab/text-to-video-ms-1.7b")
-os.system("pip install diffusers transformers accelerate torch")
 os.system("cls")
-
+os.system("winget install --id=Python.Python.3.10  -e")
+os.system("cls")
+os.system("pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118")
+os.system("cls")
+os.system("pip install xformers")
+os.system("cls")
+os.system("git lfs install")
+os.system("cls")
+os.system("git clone https://huggingface.co/stabilityai/stable-diffusion-2-1-base")
+os.system("cls")
+os.system("pip install diffusers transformers accelerate scipy safetensors")
+os.system("cls")
 def exitfunction():
 	print("---------------------------------------------------------------------------------------------------")	
 	print("|                                             cleaning up                                         |")
@@ -22,48 +30,38 @@ def main():
 	print("---------------------------------------------------------------------------------------------------")
 	print("|					    ~Loading AI~		  	                 |")
 	print("---------------------------------------------------------------------------------------------------")
-	from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
-	from diffusers.utils import export_to_video
-	pipe = DiffusionPipeline.from_pretrained("damo-vilab/text-to-video-ms-1.7b", torch_dtype=torch.float16, variant="fp16")
-	pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
-	pipe.enable_model_cpu_offload()
+	from diffusers import StableDiffusionPipeline, EulerDiscreteScheduler
+	import torch
+	model_id = "stabilityai/stable-diffusion-2-1-base"
+	scheduler = EulerDiscreteScheduler.from_pretrained(model_id, subfolder="scheduler")
+	pipe = StableDiffusionPipeline.from_pretrained(model_id, scheduler=scheduler, torch_dtype=torch.float16)
+	pipe = pipe.to("cuda")
+	pipe.enable_vae_tiling()
+	pipe.enable_attention_slicing("max")
+	pipe.enable_xformers_memory_efficient_attention(attention_op=None)
+	pipe.unet.to(memory_format=torch.channels_last)
+	pipe.enable_sequential_cpu_offload()
 	# prompts for an input to text to video
-	os.system("cls")
 	print("													  ")		
-	print("													  ")
-	print("													  ")		
-	print("													  ")
 	print("													  ")		
 	print("													  ")
 	print("---------------------------------------------------------------------------------------------------")
 	print("|              Custom script by https://www.linkedin.com/in/joshua-roberts-bb167a211/             |")
 	print("---------------------------------------------------------------------------------------------------")
-	print("|											          ")
-	print("|												  ")
-	print("---------------------------------------------------------------------------------------------------")
-	print("|                         To generate higher inference steps or frame count,                      |")
-	print("|                   edit the num_inference_steps and num_frames parameters in run.py              |")
-	print("---------------------------------------------------------------------------------------------------")
-	print("|												  |")
-	print("|											          |")
 	print("---------------------------------------------------------------------------------------------------")
 	print("|                               What would you like to generate?                                  |")
 	print("---------------------------------------------------------------------------------------------------")
 	promptvariable = input()
 	prompt = promptvariable
-	# if video does not render, lower num_frames or inference_steps until video renders
-	video_frames = pipe(prompt, num_inference_steps=25, num_frames=50).frames
-	video_path = export_to_video(video_frames)
-	print("'Video rendered with' + num_inference_steps + 'inference steps, and ' + num_frames 'frames.'")
-	# print output
-	print("---------------------------------------------------------------------------------------------------")
-	print("| Your video has been saved at" + video_path +"|")
-	print("---------------------------------------------------------------------------------------------------")
+	random_name_length = 7
+	res = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k=random_name_length))
+	image = pipe(prompt).images[0]
+	os.chdir('outputs')
+	image.save(res + ".png")
 	torch.cuda.empty_cache()
-	os.system("start " + video_path)
-	open(video_path)
 	print("---------------------------------------------------------------------------------------------------")
-	print("|                       Would you like to generate another video? (y/n)                           |")
+	print("|                       Would you like to generate another image ?(y/n)                           |")
 	print("---------------------------------------------------------------------------------------------------")
 	n = "n"
 	y = "y"
